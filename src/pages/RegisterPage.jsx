@@ -4,7 +4,8 @@ import { toast } from "sonner";
 import AuthShell from "@/components/AuthShell";
 import Field from "@/components/Field";
 import { Button } from "@/components/ui/button";
-import { Input, Select } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
+import { NativeSelect as Select } from "@/components/ui/native-select";
 import { useAuth } from "@/hooks/useAuth";
 import { ROLES } from "@/lib/constants";
 import React from "react";
@@ -43,7 +44,7 @@ export default function RegisterPage() {
       footer={
         <>
           Sudah punya akun?{" "}
-          <Link to="/login" className="font-medium text-primary underline">
+          <Link to="/login" className="font-medium underline text-primary">
             Masuk
           </Link>
         </>

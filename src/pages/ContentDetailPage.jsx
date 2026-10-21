@@ -12,6 +12,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/lib/api";
 import { STAGES, canTransition, labelOf } from "@/lib/constants";
 import React from "react";
+import DeleteContentDialog from "@/components/DeleteContentDialog";
 
 // Tahap berikutnya yang dipindah dengan tombol biasa.
 // Tahap review/revisi/ACC tidak ada di sini: itu dikerjakan lewat ReviewPanel.
@@ -102,20 +103,15 @@ export default function ContentDetailPage() {
     save();
   }
 
-  async function handleDelete() {
-    const confirmed = window.confirm(
-      `Hapus "${content.title}"?\n\nChecklist (${content.checklists.length}) dan metrik (${content.metrics.length}) ikut terhapus. Tindakan ini tidak bisa dibatalkan.`
-    );
-    if (!confirmed) return;
-
-    try {
-      await api.deleteContent(id);
-      toast.success("Konten dihapus");
-      navigate("/contents");
-    } catch (error) {
-      toast.error(error.message);
-    }
+async function handleDelete() {
+  try {
+    await api.deleteContent(id);
+    toast.success("Konten dihapus");
+    navigate("/contents");
+  } catch (error) {
+    toast.error(error.message);
   }
+}
 
   const nextStage = NEXT_STAGE[content.status];
   const canAdvance = nextStage && canTransition(user, content, nextStage);
@@ -125,21 +121,16 @@ export default function ContentDetailPage() {
   return (
     <div>
       <Link to="/contents" className="inline-flex items-center gap-1 text-sm text-muted-foreground hover:text-foreground">
-        <ArrowLeft className="h-4 w-4" />
+        <ArrowLeft className="w-4 h-4" />
         Semua konten
       </Link>
 
-      <div className="mt-3 flex flex-wrap items-start justify-between gap-3">
+      <div className="flex flex-wrap items-start justify-between gap-3 mt-3">
         <h1 className="text-2xl font-semibold">{content.title}</h1>
-        {!isEditor && (
-          <Button variant="destructive" size="sm" onClick={handleDelete}>
-            <Trash2 className="h-4 w-4" />
-            Hapus konten
-          </Button>
-        )}
+        {!isEditor && <DeleteContentDialog content={content} onConfirm={handleDelete} />}
       </div>
 
-      <div className="mt-5 flex flex-wrap items-center gap-4">
+      <div className="flex flex-wrap items-center gap-4 mt-5">
         <StageBar status={content.status} />
         {canAdvance && (
           <Button

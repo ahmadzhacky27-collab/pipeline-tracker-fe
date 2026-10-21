@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 import { toast } from "sonner";
 import StageBar from "@/components/StageBar";
 import { buttonVariants } from "@/components/ui/button";
-import { Select } from "@/components/ui/input";
+import { NativeSelect as Select } from "@/components/ui/native-select";
 import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/lib/api";
 import { FORMATS, PLATFORMS, STAGES, labelOf } from "@/lib/constants";
@@ -53,14 +53,14 @@ export default function ContentsPage() {
         <h1 className="text-2xl font-semibold">Konten</h1>
         {!isEditor && (
           <Link to="/contents/new" className={buttonVariants()}>
-            <Plus className="h-4 w-4" />
+            <Plus className="w-4 h-4" />
             Konten baru
           </Link>
         )}
       </div>
 
       {/* Tab tahap: klik untuk menyaring daftar */}
-      <div className="mt-6 flex overflow-x-auto border-b">
+      <div className="flex mt-6 overflow-x-auto border-b">
         <StageTab active={stage === ""} onClick={() => setStage("")} label="Semua" count={contentsInFormat.length} />
         {STAGES.map((item) => (
           <StageTab
@@ -74,7 +74,7 @@ export default function ContentsPage() {
         ))}
       </div>
 
-      <div className="mt-4 flex flex-wrap gap-3">
+      <div className="flex flex-wrap gap-3 mt-4">
         {!isEditor && (
         <Select className="w-52" value={channelId} onChange={(e) => setChannelId(e.target.value)} aria-label="Filter channel">
           <option value="">Semua channel</option>
@@ -93,7 +93,7 @@ export default function ContentsPage() {
         </Select>
       </div>
 
-      <div className="mt-4 overflow-x-auto rounded border bg-card">
+      <div className="mt-4 overflow-x-auto border rounded bg-card">
         <table className="w-full min-w-[40rem] text-left text-sm">
           <thead className="border-b bg-muted text-muted-foreground">
             <tr>

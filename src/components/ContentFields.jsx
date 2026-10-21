@@ -1,7 +1,9 @@
-import Field from "@/components/Field";
-import { Input, Select, Textarea } from "@/components/ui/input";
-import { FORMATS, PLATFORMS, PRIORITIES, labelOf } from "@/lib/constants";
 import React from "react";
+import Field from "@/components/Field";
+import { Input } from "@/components/ui/input";
+import { NativeSelect as Select } from "@/components/ui/native-select";
+import { Textarea } from "@/components/ui/textarea";
+import { FORMATS, PLATFORMS, PRIORITIES, labelOf } from "@/lib/constants";
 
 // Kolom-kolom form konten. Dipakai di halaman "Konten baru" dan halaman detail.
 // Komponen ini "controlled": nilainya dipegang oleh halaman pemanggil.

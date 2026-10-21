@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { Select } from "@/components/ui/input";
+import { NativeSelect as Select } from "@/components/ui/native-select";
 import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/lib/api";
 import { ROLES, labelOf } from "@/lib/constants";
@@ -30,7 +30,7 @@ export default function UsersPage() {
       <h1 className="text-2xl font-semibold">Pengguna</h1>
       <p className="mt-1 text-muted-foreground">Atur peran setiap akun. Akun sendiri tidak bisa diubah.</p>
 
-      <div className="mt-6 overflow-x-auto rounded border bg-card">
+      <div className="mt-6 overflow-x-auto border rounded bg-card">
         <table className="w-full min-w-[30rem] text-left text-sm">
           <thead className="border-b bg-muted text-muted-foreground">
             <tr>

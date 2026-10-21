@@ -81,10 +81,10 @@ idea > scripting > recording > editing > in_review > ready > published
 | Buat / edit / hapus konten, kelola channel & metrik | ya | tidak | ya |
 | idea > scripting > recording > editing | ya | tidak | ya |
 | Kirim review (editing/revision > in_review) | hanya jika belum ada editor | ya (miliknya) | ya |
-| ACC atau minta revisi | ya | tidak | ya |
-| ready > published | ya | tidak | ya |
-| Checklist | ya | ya | ya |
-| Ubah role pengguna | tidak | tidak | ya |
+| ACC atau minta revisi | ya    | tidak | ya                                                     |
+| ready > published     | ya    | tidak | ya                                                     |
+| Checklist             | ya    | ya | ya                                                        |
+| Ubah role pengguna    | tidak | tidak | ya  |
 
 Aturan di `src/lib/constants.js` (`canTransition`) hanya mengatur tombol yang tampil.
 **Backend wajib memeriksa ulang semuanya.**

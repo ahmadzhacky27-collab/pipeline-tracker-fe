@@ -2,7 +2,8 @@ import { useState } from "react";
 import { toast } from "sonner";
 import Field from "@/components/Field";
 import { Button } from "@/components/ui/button";
-import { Input, Textarea } from "@/components/ui/input";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
 import { useAuth } from "@/hooks/useAuth";
 import { api } from "@/lib/api";
 import { canTransition } from "@/lib/constants";
@@ -60,7 +61,7 @@ export default function ReviewPanel({ content, onUpdated }) {
       {canSubmit && (
         <div className="space-y-3">
           {content.status === "revision" && content.review_note && (
-            <p className="border-l-4 border-warning bg-card p-3 text-sm">
+            <p className="p-3 text-sm border-l-4 border-warning bg-card">
               <strong>Catatan revisi:</strong> {content.review_note}
             </p>
           )}
@@ -78,7 +79,7 @@ export default function ReviewPanel({ content, onUpdated }) {
 
       {canDecide && (
         <div className="space-y-3">
-          <a href={content.review_url} target="_blank" rel="noreferrer" className="text-sm font-medium text-primary underline">
+          <a href={content.review_url} target="_blank" rel="noreferrer" className="text-sm font-medium underline text-primary">
             Buka hasil editing
           </a>
           <Field label="Catatan revisi" error={errors.note} hint="Wajib diisi jika meminta revisi.">
@@ -103,7 +104,7 @@ export default function ReviewPanel({ content, onUpdated }) {
         <p className="text-sm text-muted-foreground">
           {waitingText}{" "}
           {content.status === "in_review" && content.review_url && (
-            <a href={content.review_url} target="_blank" rel="noreferrer" className="font-medium text-primary underline">
+            <a href={content.review_url} target="_blank" rel="noreferrer" className="font-medium underline text-primary">
               Buka hasil editing
             </a>
           )}
@@ -111,7 +112,7 @@ export default function ReviewPanel({ content, onUpdated }) {
       )}
 
       {history.length > 0 && (
-        <ul className="divide-y border-y text-sm">
+        <ul className="text-sm divide-y border-y">
           {history.map((item) => (
             <li key={item.id} className="py-2">
               <div className="flex justify-between gap-2">
