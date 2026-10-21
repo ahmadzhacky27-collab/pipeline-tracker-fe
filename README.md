@@ -1,6 +1,6 @@
 # Pipeline Konten (Frontend)
 
-Frontend untuk **Creator Content & Pipeline Tracker**: React (JavaScript) + Vite + Tailwind CSS 3 + komponen bergaya shadcn/ui.
+Frontend untuk **Creator Content & Pipeline Tracker**: React (JavaScript) + Vite + Tailwind CSS 3 + shadcn/ui.
 
 ## Menjalankan di lokal
 
@@ -10,14 +10,14 @@ cp .env.example .env     # biarkan VITE_API_URL kosong untuk memakai mock server
 npm run dev
 ```
 
-Buka alamat yang tampil di terminal (biasanya http://localhost:5173).
+Buka alamat yang tampil di terminal.
 Akun contoh (password semuanya `password123`):
 
-| Email | Role |
-|---|---|
-| `creator@demo.id` | Kreator |
-| `editor@demo.id` | Editor |
-| `admin@demo.id` | Admin |
+  | Email             | Role    |
+  |---                |---      |
+  | `creator@demo.id` | Kreator |
+  | `editor@demo.id`  | Editor  |
+  | `admin@demo.id`   | Admin   |
 
 Untuk mencoba alur review: masuk sebagai editor, buka konten "Setup studio rumahan", kirim link review.
 Lalu masuk sebagai kreator untuk menyetujui atau meminta revisi.
@@ -57,13 +57,6 @@ src/
   pages/              satu file per halaman (UsersPage khusus admin)
 ```
 
-## Menambah komponen shadcn lain
-
-`components.json` sudah disiapkan, jadi bisa memakai CLI resminya:
-
-```bash
-npx shadcn@latest add dialog
-```
 
 ## Role dan alur review
 
