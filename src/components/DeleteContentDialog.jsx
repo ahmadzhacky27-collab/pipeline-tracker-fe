@@ -31,9 +31,9 @@ export default function DeleteContentDialog({ content, onConfirm }) {
 
       <AlertDialogContent>
         <AlertDialogHeader>
-          <AlertDialogTitle>Hapus "{content.title}"?</AlertDialogTitle>
+          <AlertDialogTitle>Hapus "{content?.title || "Konten Ini"}"?</AlertDialogTitle>
           <AlertDialogDescription>
-            {content.checklists.length} checklist, {content.metrics.length}{" "}
+            {content?.checklists?.length || 0} checklist, {content?.metrics?.length || 0}{" "}
             catatan metrik, dan riwayat review ikut terhapus. Tindakan ini tidak
             bisa dibatalkan.
           </AlertDialogDescription>

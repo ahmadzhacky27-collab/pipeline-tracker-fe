@@ -8,18 +8,23 @@ import { cn } from "@/lib/utils";
 import React from "react";
 
 // Checklist kebutuhan produksi. `items` dan `onChange` dipegang halaman detail.
-export default function Checklist({ contentId, items, onChange }) {
+export default function Checklist({ contentId, items = [], onChange }) {
   const [newTask, setNewTask] = useState("");
   const [error, setError] = useState("");
 
-  const doneCount = items.filter((item) => item.is_completed).length;
+  // Aman dari undefined menggunakan fallback array kosong
+  const safeItems = Array.isArray(items) ? items : [];
+  
+  // Menggunakan isDone sesuai skema Prisma backend
+  const doneCount = safeItems.filter((item) => item.isDone).length;
 
   async function handleAdd(event) {
     event.preventDefault();
     setError("");
     try {
+      // Mengirim payload task_name yang diterima backend, lalu backend merespons object item baru
       const item = await api.addChecklist(contentId, { task_name: newTask });
-      onChange([...items, item]);
+      onChange([...safeItems, item]);
       setNewTask("");
     } catch (err) {
       setError(err.errors?.task_name || err.message);
@@ -30,7 +35,7 @@ export default function Checklist({ contentId, items, onChange }) {
   async function handleToggle(id) {
     try {
       const updated = await api.toggleChecklist(id);
-      onChange(items.map((item) => (item.id === id ? updated : item)));
+      onChange(safeItems.map((item) => (item.id === id ? updated : item)));
     } catch (err) {
       toast.error(err.message);
     }
@@ -39,7 +44,7 @@ export default function Checklist({ contentId, items, onChange }) {
   async function handleDelete(id) {
     try {
       await api.deleteChecklist(id);
-      onChange(items.filter((item) => item.id !== id));
+      onChange(safeItems.filter((item) => item.id !== id));
     } catch (err) {
       toast.error(err.message);
     }
@@ -49,40 +54,40 @@ export default function Checklist({ contentId, items, onChange }) {
     <section>
       <div className="flex items-baseline justify-between">
         <h2 className="font-semibold">Checklist produksi</h2>
-        {items.length > 0 && (
+        {safeItems.length > 0 && (
           <span className="text-sm text-muted-foreground">
-            {doneCount} dari {items.length} selesai
+            {doneCount} dari {safeItems.length} selesai
           </span>
         )}
       </div>
 
       <ul className="mt-3 divide-y border-y">
-        {items.length === 0 && (
+        {safeItems.length === 0 && (
           <li className="py-3 text-sm text-muted-foreground">
             Belum ada tugas. Contoh: "B-roll direkam", "Thumbnail disetujui".
           </li>
         )}
-        {items.map((item) => (
+        {safeItems.map((item) => (
           <li key={item.id} className="flex items-center gap-3 py-2">
             <input
               type="checkbox"
               id={`task-${item.id}`}
-              checked={item.is_completed}
+              checked={item.isDone} // 👈 Diubah dari is_completed ke isDone
               onChange={() => handleToggle(item.id)}
               className="h-4 w-4 accent-[hsl(var(--primary))]"
             />
             <label
               htmlFor={`task-${item.id}`}
-              className={cn("flex-1 text-sm", item.is_completed && "text-muted-foreground line-through")}
+              className={cn("flex-1 text-sm", item.isDone && "text-muted-foreground line-through")} // 👈 Diubah ke isDone
             >
-              {item.task_name}
+              {item.task} {/* 👈 Diubah dari task_name ke task */}
             </label>
             <Button
               type="button"
               variant="ghost"
               size="icon"
               onClick={() => handleDelete(item.id)}
-              aria-label={`Hapus tugas ${item.task_name}`}
+              aria-label={`Hapus tugas ${item.task}`} // 👈 Diubah ke task
             >
               <Trash2 className="h-4 w-4" />
             </Button>

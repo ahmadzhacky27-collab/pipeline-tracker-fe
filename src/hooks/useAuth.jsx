@@ -6,22 +6,41 @@ const AuthContext = createContext(null);
 
 export function AuthProvider({ children }) {
   const [user, setUser] = useState(() => {
-    const saved = localStorage.getItem(USER_KEY);
-    return saved ? JSON.parse(saved) : null;
+    try {
+      const saved = localStorage.getItem(USER_KEY);
+      // Pastikan data ada, tidak kosong, dan tidak bernilai string "undefined"
+      if (saved && saved !== "undefined" && saved !== "null") {
+        return JSON.parse(saved);
+      }
+    } catch (error) {
+      console.error("Gagal memparsing data user dari localStorage:", error);
+      // Bersihkan data yang korup agar tidak error terus menerus
+      localStorage.removeItem(USER_KEY);
+    }
+    return null;
   });
 
   function saveSession({ token, user }) {
-    localStorage.setItem(TOKEN_KEY, token);
-    localStorage.setItem(USER_KEY, JSON.stringify(user));
-    setUser(user);
+    if (token) localStorage.setItem(TOKEN_KEY, token);
+    if (user) localStorage.setItem(USER_KEY, JSON.stringify(user));
+    setUser(user || null);
   }
 
   async function login(credentials) {
-    saveSession(await api.login(credentials));
+    const response = await api.login(credentials);
+    // Sesuaikan dengan struktur response backend: { token, data (user) }
+    saveSession({
+      token: response.token,
+      user: response.data || response.user
+    });
   }
 
   async function register(data) {
-    saveSession(await api.register(data));
+    const response = await api.register(data);
+    saveSession({
+      token: response.token,
+      user: response.data || response.user
+    });
   }
 
   function logout() {
